@@ -1,16 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ApplicationManifest ApplicationTypeName="EnrollmentType"
-                     ApplicationTypeVersion="1.0.0"
-                     xmlns="http://schemas.microsoft.com/2011/01/fabric"
-                     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="EnrollmentType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
+    <Parameter Name="GuestExecutableSample_InstanceCount" DefaultValue="-1" />
+    <Parameter Name="WindowsServiceExecutable_InstanceCount" DefaultValue="-1" />
+    <Parameter Name="EnrollmentStateFullService_MinReplicaSetSize" DefaultValue="2" />
+    <Parameter Name="EnrollmentStateFullService_PartitionCount" DefaultValue="2" />
+    <Parameter Name="EnrollmentStateFullService_TargetReplicaSetSize" DefaultValue="2" />
+    <Parameter Name="EnrollmentAPI_ASPNETCORE_ENVIRONMENT" DefaultValue="" />
+    <Parameter Name="EnrollmentAPI_InstanceCount" DefaultValue="-1" />
     <Parameter Name="EnrollmentUI_ASPNETCORE_ENVIRONMENT" DefaultValue="" />
     <Parameter Name="EnrollmentUI_InstanceCount" DefaultValue="-1" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
        ServiceManifest.xml file. -->
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="GuestExecutableSamplePkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+  </ServiceManifestImport>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="EnrollmentStateFullServicePkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+  </ServiceManifestImport>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="EnrollmentAPIPkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+    <EnvironmentOverrides CodePackageRef="code">
+      <EnvironmentVariable Name="ASPNETCORE_ENVIRONMENT" Value="[EnrollmentAPI_ASPNETCORE_ENVIRONMENT]" />
+    </EnvironmentOverrides>
+  </ServiceManifestImport>
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="EnrollmentUIPkg" ServiceManifestVersion="1.0.0" />
     <ConfigOverrides />
@@ -19,11 +37,56 @@
     </EnvironmentOverrides>
   </ServiceManifestImport>
   <DefaultServices>
-    <!-- The section below creates instances of service types, when an instance of this 
+    <!--<StatefulService ServiceTypeName="Stateful2Type" TargetReplicaSetSize="[Stateful2_TargetReplicaSetSize]" MinReplicaSetSize="[Stateful2_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="3" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+      </StatefulService>
+    </Service>-->
+    <!--<StatelessService ServiceTypeName="EnrollmentAPIType" InstanceCount="2">-->
+    <!--<StatefulService ServiceTypeName="StateFullServiceType" TargetReplicaSetSize="[MyService_TargetReplicaSetSize]" MinReplicaSetSize="[MyService_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[MyService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+      </StatefulService>-->
+    <!--<StatelessService ServiceTypeName="EnrollmentAPIType" InstanceCount="[EnrollmentAPI_InstanceCount]">-->
+    <!--<Service Name="Stateful2" ServicePackageActivationMode="ExclusiveProcess">-->
+    <!--The section below creates instances of service types, when an instance of this 
          application type is created. You can also create one or more instances of service type using the 
          ServiceFabric PowerShell module.
          
-         The attribute ServiceTypeName below must match the name defined in the imported ServiceManifest.xml file. -->
+         The attribute ServiceTypeName below must match the name defined in the imported ServiceManifest.xml file.-->
+    <!--<Service Name="EnrollmentAPI" ServicePackageActivationMode="ExclusiveProcess">
+      <StatelessService ServiceTypeName="EnrollmentAPIType" InstanceCount="[EnrollmentAPI_InstanceCount]">
+        <SingletonPartition />
+      </StatelessService>
+    </Service>-->
+    <!--<Service Name="EnrollmentUI" ServicePackageActivationMode="ExclusiveProcess">
+      <StatelessService ServiceTypeName="EnrollmentUIType" InstanceCount="[EnrollmentUI_InstanceCount]">
+        <SingletonPartition />
+      </StatelessService>
+    </Service>-->
+    <!--<Service Name="GuestExecutableSample" ServicePackageActivationMode="ExclusiveProcess">
+      <StatelessService ServiceTypeName="GuestExecutableSampleType" InstanceCount="[GuestExecutableSample_InstanceCount]">
+        <SingletonPartition />
+      </StatelessService>
+    </Service>-->
+    <Service Name="EnrollmentStateFullService" ServicePackageActivationMode="ExclusiveProcess">
+      <StatefulService ServiceTypeName="EnrollmentStateFullServiceType" TargetReplicaSetSize="[EnrollmentStateFullService_TargetReplicaSetSize]" MinReplicaSetSize="[EnrollmentStateFullService_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="2" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+      </StatefulService>
+    </Service>
+    <Service Name="EnrollmentAPI" ServicePackageActivationMode="ExclusiveProcess">
+      <StatelessService ServiceTypeName="EnrollmentAPIType" InstanceCount="2">
+        <SingletonPartition />
+        <!--<ServiceScalingPolicies>
+          <ScalingPolicy>
+            <AveragePartitionLoadScalingTrigger MetricName="servicefabric:/_CpuCores" LowerLoadThreshold="0.5" UpperLoadThreshold="0.70" ScaleIntervalInSeconds="120" />
+            <InstanceCountScalingMechanism MinInstanceCount="1" MaxInstanceCount="3" ScaleIncrement="1" />
+          </ScalingPolicy>
+          <ScalingPolicy>
+            <AveragePartitionLoadScalingTrigger MetricName="servicefabric:/_MemoryInMB" LowerLoadThreshold="2" UpperLoadThreshold="4" ScaleIntervalInSeconds="120" />
+            <InstanceCountScalingMechanism MinInstanceCount="2" MaxInstanceCount="3" ScaleIncrement="1" />
+          </ScalingPolicy>
+        </ServiceScalingPolicies>-->
+      </StatelessService>
+    </Service>
     <Service Name="EnrollmentUI" ServicePackageActivationMode="ExclusiveProcess">
       <StatelessService ServiceTypeName="EnrollmentUIType" InstanceCount="[EnrollmentUI_InstanceCount]">
         <SingletonPartition />

@@ -29,9 +29,19 @@
     <None Include="Scripts\Deploy-FabricApplication.ps1" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ApplicationPackageRoot\GuestExecutableSamplePkg\Code\ConsoleApplication.exe" />
+    <Content Include="ApplicationPackageRoot\GuestExecutableSamplePkg\Code\ConsoleApplication.exe.config" />
+    <Content Include="ApplicationPackageRoot\GuestExecutableSamplePkg\Code\ConsoleApplication.pdb" />
+    <Content Include="ApplicationPackageRoot\GuestExecutableSamplePkg\Code\ConsoleApplication.vshost.exe" />
+    <Content Include="ApplicationPackageRoot\GuestExecutableSamplePkg\Code\ConsoleApplication.vshost.exe.config" />
+    <Content Include="ApplicationPackageRoot\GuestExecutableSamplePkg\Code\ConsoleApplication.vshost.exe.manifest" />
+    <Content Include="ApplicationPackageRoot\GuestExecutableSamplePkg\Config\Settings.xml" />
+    <Content Include="ApplicationPackageRoot\GuestExecutableSamplePkg\ServiceManifest.xml" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EnrollmentAPI\EnrollmentAPI.xproj" />
+    <ProjectReference Include="..\EnrollmentStateFullService\EnrollmentStateFullService.csproj" />
     <ProjectReference Include="..\EnrollmentUI\EnrollmentUI.xproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />

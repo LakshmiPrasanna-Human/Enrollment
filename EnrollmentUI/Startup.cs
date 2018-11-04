@@ -53,7 +53,8 @@ namespace EnrollmentUI
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    //template: "{controller=Student}/{action=StudentEnrollDetails}/{id?}");
+                    template: "{controller=Student}/{action=StudentEnrollDetails}");
             });
         }
     }

@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:3864/",
+      "applicationUrl": "http://mysfcluster123.southcentralus.cloudapp.azure.com:443/",
       "sslPort": 0
     }
   },

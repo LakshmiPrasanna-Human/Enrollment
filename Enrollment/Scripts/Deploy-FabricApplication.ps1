@@ -160,7 +160,7 @@ $LocalFolder = (Split-Path $MyInvocation.MyCommand.Path)
 
 if (!$PublishProfileFile)
 {
-    $PublishProfileFile = "$LocalFolder\..\PublishProfiles\Local.xml"
+    $PublishProfileFile = "$LocalFolder\..\PublishProfiles\Local.5Node.xml"
 }
 
 if (!$ApplicationPackagePath)
@@ -241,6 +241,9 @@ if ($IsUpgrade)
     $PublishParameters['UnregisterUnusedVersions'] = $UnregisterUnusedApplicationVersionsAfterUpgrade
 
     Publish-UpgradedServiceFabricApplication @PublishParameters
+
+	#Connect-ServiceFabricCluster
+	#Copy-ServiceFabricApplicationPackage
 }
 else
 {

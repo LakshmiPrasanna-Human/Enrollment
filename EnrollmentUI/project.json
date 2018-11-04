@@ -16,6 +16,7 @@
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
     "Microsoft.ServiceFabric": "6.3.176",
+    "Microsoft.ServiceFabric.AspNetCore.Kestrel": "3.2.176",
     "Microsoft.ServiceFabric.AspNetCore.WebListener": "3.2.176",
     "Microsoft.ServiceFabric.Data": "3.2.176",
     "Microsoft.ServiceFabric.Services": "3.2.176",
